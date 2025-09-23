@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Meu Livro</title>
+  <meta name="theme-color" content="#111827" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles-darkside.css" />
+  <link rel="stylesheet" href="shop.css" />
+</head>
+<body>
+  <div class="cloud" aria-hidden="true">
+    <img src="imagens/clouds.png" alt="" class="img_cloud">
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Página inicial">
+        <img src="assets/favicon.svg" alt="" class="brand-mark" />
+        <span class="brand-name">Meu Livro</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+      <nav id="primary-nav" class="nav">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="autor.html" class="nav-link">Sobre o Autor</a>
+        <a href="loja.html" class="nav-link">Loja</a>
+        <a href="comprar.html" class="nav-link cta">Comprar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container shop admin">
+    <header class="shop-head">
+      <h1>Administração</h1>
+      <p class="muted">Cadastre, edite e exclua produtos da loja.</p>
+    </header>
+
+    <section class="shop-toolbar">
+      <div class="search">
+        <input id="q" type="search" placeholder="Filtrar por título ou categoria…" aria-label="Filtrar produtos" />
+      </div>
+      <div class="admin-actions">
+        <button id="newItem" class="btn primary">Novo produto</button>
+        <button id="exportJSON" class="btn ghost">Exportar</button>
+        <label class="btn ghost" for="importJSON" style="cursor:pointer">Importar</label>
+        <input id="importJSON" type="file" accept="application/json" hidden>
+      </div>
+    </section>
+
+    <section id="formWrap" class="product-form hidden" aria-hidden="true">
+      <h2 id="formTitle">Novo produto</h2>
+      <form id="productForm">
+        <input type="hidden" id="f-id" />
+        <div class="grid-2">
+          <label class="field">
+            <span>Título*</span>
+            <input id="f-title" type="text" required placeholder="Ex.: Livro — Edição Especial">
+          </label>
+          <label class="field">
+            <span>Preço (R$)*</span>
+            <input id="f-price" type="number" step="0.01" min="0" required placeholder="49.90">
+          </label>
+        </div>
+        <div class="grid-2">
+          <label class="field">
+            <span>Categoria</span>
+            <input id="f-category" type="text" placeholder="Ex.: Livros, eBook">
+          </label>
+          <label class="field">
+            <span>Imagem (URL)</span>
+            <input id="f-image" type="url" placeholder="https://... .jpg / .png / .webp">
+          </label>
+        </div>
+        <label class="field">
+          <span>Descrição</span>
+          <textarea id="f-desc" rows="3" placeholder="Breve descrição do produto"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn primary" id="saveBtn">Salvar</button>
+          <button type="button" id="cancelForm" class="btn ghost">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="shop-list">
+      <div class="shop-list-head">
+        <h2>Produtos</h2>
+        <span id="count" class="muted">0 itens</span>
+      </div>
+      <div id="productsGrid" class="products-grid"></div>
+      <p id="emptyState" class="muted empty-state" hidden>Nenhum produto cadastrado ainda.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+  (async function(){
+    const ADMIN_PIN = '1234'; // <<< TROQUE AQUI
+    if (sessionStorage.getItem('admin_ok') !== '1') {
+      for (let tentativas = 0; tentativas < 3; tentativas++){
+        const pin = prompt('PIN do administrador:');
+        if (pin === null) { location.href = 'index.html'; return; }
+        if (pin === ADMIN_PIN) { sessionStorage.setItem('admin_ok','1'); break; }
+        alert('PIN incorreto.');
+        if (tentativas === 2) { location.href = 'index.html'; return; }
+      }
+    }
+
+    const $ = (s, r=document)=>r.querySelector(s);
+    const fmtBRL = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v);
+    const KEY='produtosLoja';
+    const cover='assets/cover-placeholder.svg';
+
+    const grid = $('#productsGrid'), q=$('#q'), count=$('#count'), empty=$('#emptyState');
+    const formWrap = $('#formWrap'), form=$('#productForm');
+    const fId=$('#f-id'), fTitle=$('#f-title'), fPrice=$('#f-price'), fCat=$('#f-category'), fImg=$('#f-image'), fDesc=$('#f-desc');
+    const cancelForm=$('#cancelForm'), newItem=$('#newItem'), saveBtn=$('#saveBtn'), formTitle=$('#formTitle');
+    const exportBtn=$('#exportJSON'), importInp=$('#importJSON');
+
+    const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+    const save = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+    if (load().length===0) {
+      const seed = [
+        { id: Date.now()-2, title: 'Meu Livro — Capa Dura', price: 59.90, category: 'Livros', image: cover, desc: 'Edição especial em capa dura.' },
+        { id: Date.now()-1, title: 'Meu Livro — eBook',     price: 29.90, category: 'eBook',  image: cover, desc: 'Versão digital (PDF/ePub).' }
+      ];
+      save(seed);
+    }
+    let data = load();
+
+    function render(){
+      const term=(q.value||'').trim().toLowerCase();
+      const list = term ? data.filter(p =>
+        (p.title||'').toLowerCase().includes(term) ||
+        (p.category||'').toLowerCase().includes(term)
+      ) : data;
+
+      count.textContent = `${list.length} ${list.length===1?'item':'itens'}`;
+      empty.hidden = list.length !== 0;
+
+      grid.innerHTML = list.map(p=>`
+        <article class="product-card" data-id="${p.id}">
+          <div class="product-img"><img src="${p.image||cover}" alt="${p.title}"></div>
+          <div class="product-body">
+            <h3 class="product-title">${p.title}</h3>
+            <p class="product-desc">${p.desc||''}</p>
+            <div class="product-meta">
+              <span class="badge">${p.category||'Produto'}</span>
+              <span class="price">${fmtBRL(Number(p.price||0))}</span>
+            </div>
+            <div class="product-actions">
+              <button class="btn ghost btn-edit">Editar</button>
+              <button class="btn ghost btn-del">Excluir</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function openForm(edit=false){
+      formWrap.classList.remove('hidden'); formWrap.classList.add('open');
+      formWrap.setAttribute('aria-hidden','false');
+      document.body.classList.add('modal-open');
+      formTitle.textContent = edit ? 'Editar produto' : 'Novo produto';
+      saveBtn.textContent   = edit ? 'Atualizar' : 'Salvar';
+      fTitle.focus();
+    }
+    function closeForm(){
+      form.reset(); fId.value='';
+      formWrap.classList.add('hidden'); formWrap.classList.remove('open');
+      formWrap.setAttribute('aria-hidden','true');
+      document.body.classList.remove('modal-open');
+    }
+
+    q.addEventListener('input', render);
+    newItem.addEventListener('click', ()=>{ form.reset(); fId.value=''; openForm(false); });
+    cancelForm.addEventListener('click', closeForm);
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const item = {
+        id: fId.value ? Number(fId.value) : Date.now(),
+        title: fTitle.value.trim(),
+        price: parseFloat(fPrice.value),
+        category: fCat.value.trim(),
+        image: fImg.value.trim() || cover,
+        desc: fDesc.value.trim()
+      };
+      if (!item.title || isNaN(item.price)) { alert('Preencha Título e Preço corretamente.'); return; }
+
+      const idx = data.findIndex(p=>p.id===item.id);
+      if (idx>=0) data[idx]=item; else data.unshift(item);
+      save(data);
+      render();
+      closeForm();
+    });
+
+    document.getElementById('productsGrid').addEventListener('click', (e)=>{
+      const card = e.target.closest('.product-card'); if(!card) return;
+      const id = Number(card.dataset.id);
+      if (e.target.closest('.btn-edit')){
+        const p = data.find(x=>x.id===id); if(!p) return;
+        fId.value=p.id; fTitle.value=p.title; fPrice.value=p.price; fCat.value=p.category||''; fImg.value=p.image||''; fDesc.value=p.desc||'';
+        openForm(true);
+      }
+      if (e.target.closest('.btn-del')){
+        if(!confirm('Excluir este produto?')) return;
+        data = data.filter(p=>p.id!==id);
+        save(data); render();
+      }
+    });
+
+    document.getElementById('exportJSON').addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `produtos-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    document.getElementById('importJSON').addEventListener('change', async (e)=>{
+      const file = e.target.files?.[0]; if(!file) return;
+      const txt = await file.text();
+      try {
+        const arr = JSON.parse(txt);
+        if (!Array.isArray(arr)) throw new Error('JSON inválido');
+        data = arr.map(p=>({
+          id: p.id || Date.now()+Math.random(),
+          title: String(p.title||''),
+          price: Number(p.price||0),
+          category: p.category||'',
+          image: p.image||'',
+          desc: p.desc||''
+        }));
+        save(data); render();
+        alert('Importação concluída!');
+      } catch(err){
+        alert('Não foi possível importar: ' + err.message);
+      }
+    });
+
+    render();
+    const yr=document.getElementById('year'); if(yr) yr.textContent=new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>

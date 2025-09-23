@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Comprar — Meu Livro</title>
+<meta name="description" content="Garanta seu exemplar agora" />
+<meta name="theme-color" content="#111827" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="styles-darkside.css" />
+<meta property="og:title" content="Comprar — Meu Livro" />
+<meta property="og:description" content="Garanta seu exemplar agora" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/cover-placeholder.svg" />
+<meta property="og:url" content="https://example.com" />
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html" aria-label="Página inicial">
+      <img src="assets/favicon.svg" alt="" class="brand-mark" />
+      <span class="brand-name">Meu Livro</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">
+      ☰
+    </button>
+    <nav id="primary-nav" class="nav">
+      <a href="index.html" class="nav-link">Início</a>
+      <a href="autor.html" class="nav-link">Sobre o Autor</a>
+      <a href="comprar.html" class="nav-link cta">Comprar</a>
+    </nav>
+  </div>
+</header>
+
+    <main class="container">
+      <h1>Comprar</h1>
+      <div class="grid-two">
+        <section>
+          <h2>Escolha o formato</h2>
+          <form class="card" onsubmit="return handleCheckout(event)">
+            <label class="field">
+              <span>Formato</span>
+              <select id="formato" required>
+                <option value="fisico">Livro físico</option>
+                <option value="ebook">eBook (PDF/ePub)</option>
+                <option value="combo">Combo (Físico + eBook)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Quantidade</span>
+              <input type="number" id="quantidade" min="1" value="1" required />
+            </label>
+            <label class="field">
+              <span>E-mail</span>
+              <input type="email" id="email" placeholder="voce@exemplo.com" required />
+            </label>
+            <div class="prices">
+              <p><strong>Preço:</strong> <span id="preco">R$ 39,90</span></p>
+            </div>
+            <button class="btn primary" type="submit">Continuar</button>
+            <p class="small muted">* Exemplo. Integre Mercado Pago/Stripe ou link de WhatsApp.</p>
+          </form>
+          <div class="card">
+            <h3>Pagamento rápido</h3>
+            <p>Prefere falar no WhatsApp?</p>
+            <a class="btn ghost" id="zaplink" href="#" target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
+          </div>
+        </section>
+        <aside>
+          <div class="card">
+            <h3>O que você recebe</h3>
+            <ul class="bullets">
+              <li>Envio em até 3 dias úteis (edite)</li>
+              <li>Suporte por e-mail/WhatsApp</li>
+              <li>Garantia de 7 dias para reembolso (edite)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Dúvidas?</h3>
+            <p>contato@seudominio.com</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
+    <p class="small">Este site é um exemplo base para VSCode. Personalize títulos, textos e imagens.</p>
+  </div>
+</footer>
+<script src="script.js"></script>
+
+    <script>
+      const precoBase = {"fisico": 39.90, "ebook": 24.90, "combo": 54.90};
+      const precoEl = document.getElementById('preco');
+      const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+      const selectFmt = document.getElementById('formato');
+      const qtd = document.getElementById('quantidade');
+      const email = document.getElementById('email');
+      const zap = document.getElementById('zaplink');
+      function updatePrice() {
+        const f = selectFmt.value;
+        const q = Math.max(1, parseInt(qtd.value || '1', 10));
+        const total = precoBase[f] * q;
+        precoEl.textContent = fmt.format(total);
+        const msg = encodeURIComponent(`Olá! Quero comprar *Meu Livro*. Formato: ${f} | Qtd: ${q} | Total: ${fmt.format(total)} | E-mail: ${email.value}`);
+        zap.href = `https://wa.me/5599999999999?text=${msg}`;
+      }
+      selectFmt.addEventListener('change', updatePrice);
+      qtd.addEventListener('input', updatePrice);
+      email.addEventListener('input', updatePrice);
+      updatePrice();
+      function handleCheckout(e) { e.preventDefault(); alert('Integre com seu provedor de pagamento.'); return false; }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
+  <defs><linearGradient id="c" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c7a35c"/><stop offset="1" stop-color="#e0d2a8"/></linearGradient></defs>
+  <rect width="800" height="1200" fill="#0b1220"/>
+  <rect x="60" y="60" width="680" height="1080" rx="24" fill="#111827" stroke="#1f2937" stroke-width="4"/>
+  <text x="400" y="550" fill="url(#c)" font-family="system-ui,Roboto,Arial" font-size="64" text-anchor="middle">MEU LIVRO</text>
+  <text x="400" y="620" fill="#e5e7eb" font-family="system-ui,Roboto,Arial" font-size="28" text-anchor="middle">Subtítulo inspirador</text>
+  <text x="400" y="1040" fill="#9ca3af" font-family="system-ui,Roboto,Arial" font-size="24" text-anchor="middle">Seu Nome</text>
+</svg>

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meu Livro — Página Inicial</title>
+    <meta name="description" content="Conheça o livro, leia um trecho e garanta o seu!" />
+    <meta name="theme-color" content="#111827" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles-darkside.css" />
+    <meta property="og:title" content="Meu Livro — Página Inicial" />
+    <meta property="og:description" content="Conheça o livro, leia um trecho e garanta o seu!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/cover-placeholder.svg" />
+    <meta property="og:url" content="https://example.com" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "name": "Meu Livro",
+      "author": { "@type": "Person", "name": "Seu Nome" },
+      "image": "assets/cover-placeholder.svg",
+      "workExample": { "@type": "Book", "bookFormat": "https://schema.org/EBook", "inLanguage": "pt-BR" },
+      "offers": { "@type": "Offer", "price": "39.90", "priceCurrency": "BRL", "url": "comprar.html", "availability": "https://schema.org/InStock" }
+    }
+    </script>
+  </head>
+  <body>
+    <!-- FUMAÇA CSS-ONLY EM TELA INTEIRA -->
+    <div class="cloud">
+                 <img src="imagens/clouds.png" alt="" class="img_cloud"></div>
+      
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a id="menuTriggerBrand" class="brand"
+   href="index.html"
+   role="button"
+   aria-haspopup="true"
+   aria-controls="menuPanel"
+   aria-expanded="false"
+   aria-label="Abrir menu">
+          <img src="assets/favicon.svg" alt="" class="brand-mark" />
+          <span class="brand-name">Meu livro</span>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+        <nav id="primary-nav" class="nav">
+          <a href="index.html" class="nav-link">Início</a>
+          <a href="autor.html" class="nav-link">Sobre o Autor</a>
+          <a href="loja.html" class="nav-link">Loja</a>
+          <a href="comprar.html" class="nav-link cta">Comprar</a>
+        </nav>
+      </div>
+      <!-- Painel do menu acionado pelo "Meu Livro" -->
+<div id="menuPanel" class="menu-panel" hidden>
+  <nav class="menu-list" aria-label="Menu principal"></nav>
+</div>
+<div id="menuBackdrop" class="menu-backdrop" hidden></div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero container">
+        <div class="hero-text">
+          <h1>Seu próximo favorito: <span class="highlight">Meu Livro</span></h1>
+          <p>Uma história envolvente que mistura emoção, aprendizado e inspiração. Disponível em formato físico e digital.</p>
+          <div class="actions">
+            <a class="btn primary" href="comprar.html">Comprar agora</a>
+            <a id="open-book" class="btn ghost" href="#sinopse">Ler sinopse</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <!-- Capa que abre o “livro” -->
+          <img
+            src="imagens/capa1.png"
+            alt="Capa do livro Meu Livro"
+            class="cover"
+            id="book-cover-trigger"
+            tabindex="0"
+            role="button"
+            aria-haspopup="dialog"
+            aria-controls="bookOverlay"
+            aria-label="Abrir visualização em livro da sinopse"
+          />
+        </div>
+      </section>
+
+      <!-- Seção de sinopse original (mantida para SEO; oculta em telas largas) -->
+      <section id="sinopse" class="container grid-two">
+        <div>
+          <h2>Sinopse</h2>
+          <p>
+            Escreva aqui um resumo curto do livro (4–6 linhas). A sinopse deve atrair o leitor, destacar o problema principal e sugerir a transformação
+            que a obra proporciona — sem spoilers.
+          </p>
+          <ul class="bullets">
+            <li>Gênero: ficção/negócios/autoajuda (edite)</li>
+            <li>Páginas: 220 (edite)</li>
+            <li>Formato: Físico e eBook</li>
+          </ul>
+        </div>
+        <aside class="card">
+          <h3>O que dizem os leitores</h3>
+          <blockquote>“Cativante do início ao fim. Leitura obrigatória!” — <span>J. Silva</span></blockquote>
+          <blockquote>“Transformou a minha forma de pensar sobre o tema.” — <span>M. Costa</span></blockquote>
+        </aside>
+      </section>
+
+      <!-- OVERLAY: Livro que abre com a sinopse (página direita) -->
+      <div id="bookOverlay" class="book-overlay" aria-hidden="true" aria-labelledby="bookTitle" role="dialog">
+        <div class="book-overlay-backdrop" data-close="true"></div>
+        <div class="book-wrap" role="document">
+          <button class="book-close" aria-label="Fechar visualização">✕</button>
+          <div class="book" aria-live="polite">
+            <div class="book-hinges" aria-hidden="true"></div>
+
+            <!-- Página esquerda -->
+            <section class="page page-left">
+              <header class="page-header">
+                <h2 id="bookTitle">Meu Livro</h2>
+                <p class="small muted">Amostra • Visualização</p>
+              </header>
+              <article class="page-content prose">
+                <p><em>“Algumas páginas se abrem por curiosidade; outras, por coragem.”</em></p>
+              </article>
+              <footer class="page-footer small muted">© Seu Nome</footer>
+            </section>
+
+            <!-- Página direita: SINOPSE + numeração “1” (sem botão) -->
+            <section class="page page-right">
+              <header class="page-header"><h3>Sinopse</h3></header>
+              <article class="page-content prose" id="book-sinopse">
+                <p>
+                  Noite após noite, a cidade sussurrava segredos nas frestas.<br>
+                  Helena caminhava devagar, colecionando silêncios e sombras.<br>
+                  Cada esquina guardava um rosto esquecido pela pressa.<br>
+                  No relógio antigo, o tempo parecia prender a respiração.<br>
+                  Ela procurava respostas que não cabiam em perguntas.<br>
+                  Um bilhete amassado guiou seus passos pela madrugada.<br>
+                  “Volte onde tudo começou”, dizia a letra trêmula.<br>
+                  O passado, que fingia dormir, abriu um olho atento.<br>
+                  As ruas cheiravam a chuva e promessas partidas.<br>
+                  Na vitrine embaçada, um reflexo que não era só dela.<br>
+                  Verdades doem, mas mentiras apodrecem em silêncio.<br>
+                  O nome que evitava pensar voltou como um sussurro.<br>
+                  Um lugar, um erro, uma chance de remendar destinos.<br>
+                  A chave fria no bolso pesava mais que lembranças.<br>
+                  Portas fechadas às vezes salvam, às vezes aprisionam.<br>
+                  Ela respirou fundo: coragem também é um hábito.<br>
+                  Retratos na parede observavam como juízes mudos.<br>
+                  No terceiro degrau, o rangido denunciou sua volta.<br>
+                  Cartas seladas por medo pediam luz e leitura.<br>
+                  
+                </p>
+              </article>
+              <footer class="page-footer">1</footer>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
+        <p class="small muted">Este site é um exemplo base para VSCode. Personalize títulos, textos e imagens.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- Fallback mínimo para abrir/fechar o overlay caso o script principal não tenha o controle do livro -->
+    <script>
+      (function(){
+        if (window.__bookInit) return;
+        window.__bookInit = true;
+    
+        const trigger  = document.getElementById('book-cover-trigger');
+        const overlay  = document.getElementById('bookOverlay');
+        const closeBtn = overlay && overlay.querySelector('.book-close');
+        const backdrop = overlay && overlay.querySelector('.book-overlay-backdrop');
+    
+        const openLink = document.getElementById('open-book')       // << NOVO
+                       || document.querySelector('a[href="#sinopse"]'); // << NOVO
+    
+        let lastFocus = null;
+    
+        function openBook(){
+          lastFocus = document.activeElement;
+          overlay.classList.add('open');
+          overlay.setAttribute('aria-hidden','false');
+          closeBtn && closeBtn.focus();
+          document.addEventListener('keydown', onKey);
+          // se um dia houver “virar páginas”, aqui é o lugar de resetar para a 1
+        }
+        function closeBook(){
+          overlay.classList.remove('open');
+          overlay.setAttribute('aria-hidden','true');
+          document.removeEventListener('keydown', onKey);
+          lastFocus && lastFocus.focus && lastFocus.focus();
+        }
+        function onKey(e){ if(e.key==='Escape') closeBook(); }
+    
+        // capa
+        trigger && trigger.addEventListener('click', openBook);
+        trigger && trigger.addEventListener('keydown', e => {
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBook(); }
+        });
+    
+        // “Ler sinopse”
+        if (openLink){
+          openLink.addEventListener('click', e => { e.preventDefault(); openBook(); });   // << NOVO
+          openLink.addEventListener('keydown', e => {                                     // << NOVO
+            if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBook(); }         // << NOVO
+          });                                                                              // << NOVO
+        }
+
+        closeBtn && closeBtn.addEventListener('click', closeBook);
+        backdrop && backdrop.addEventListener('click', e => { if (e.target === backdrop) closeBook(); });
+      })();
+    </script>    
+  </body>
+</html>

@@ -1,0 +1,282 @@
+/* styles-darkside.css
+   Tema escuro moderno + FUNDO com imagem + FUMAÇA CSS-ONLY
+   Coloque a imagem em: imagens/fundo-bg.jpg
+*/
+
+/* ============= 1) Tokens ============= */
+:root{
+  --bg:#000; --bg-elev:#0f1012; --bg-elev-2:#14161a; --surface:#16181d;
+  --text:#e6e7eb; --muted:#a5a8b3; --border:#20232a;
+  --accent:#c7a35c; --accent-2:#e0d2a8;
+  --shadow-lg:0 20px 60px rgba(0,0,0,.45);
+  --radius-sm:10px; --radius-md:14px; --radius-lg:20px;
+  --ff-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;
+  --ff-serif:Georgia,"Times New Roman",Times,serif;
+  --ff-display:"Cinzel",Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+/* ============= 2) Base (com imagem de fundo) ============= */
+*{box-sizing:border-box}
+html,body{height:100%}
+html,body{
+  margin:0;
+}
+body{
+  color:var(--text);
+  font-family:var(--ff-sans);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  /* imagem + máscara escura para legibilidade */
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(0,0,0,.25), rgba(0,0,0,.65) 70%),
+    linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.6)),
+    url("imagens/fundo-bg.jpg") center center / cover no-repeat fixed,
+    #000;
+}
+img,svg{display:block;max-width:100%}
+
+/* ============= FUMAÇA (100% CSS) ============= */
+.cloud {
+  background-color: rgba(0, 0, 0, 0);
+  position:fixed;
+  bottom: 0;
+  width: 250.625em;
+  height: 43.75em;
+  animation: rotationLeft 260s linear infinite;
+  z-index: 1;
+}
+
+@keyframes rotationLeft {
+  0% {
+    transform: translateZ(0);
+  }
+  100% {
+    transform: translate3d(-50%,0,0);
+  }
+
+}
+
+.img_cloud {
+  margin-top: 4rem;
+  opacity: 0.5
+}
+
+/* conteúdo acima da fumaça */
+.site-header, main, .site-footer{ position: relative; z-index: 1; }
+
+/* ============= 3) Layout base ============= */
+.container{width:min(1100px,88%);margin-inline:auto;padding-left:1.2rem;padding-right:1.2rem}
+.small{font-size:.9rem}.muted{color:var(--muted)}.prose{max-width:70ch}
+
+/* ============= 4) Tipografia ============= */
+h1,h2,h3{
+  margin:0 0 .8rem; line-height:1.15; font-family:var(--ff-display);
+  letter-spacing:.6px; color:#f1f2f4; text-shadow:0 1px 0 rgba(0,0,0,.4);
+}
+h1{font-size:clamp(2rem,3.2vw,3.2rem)}
+h2{font-size:clamp(1.6rem,2.4vw,2.4rem)}
+h3{font-size:clamp(1.3rem,1.9vw,1.8rem)}
+a{color:var(--text);text-decoration:none;position:relative}
+a:hover{color:#fff}
+
+/* ============= 5) Header / Navegação ============= */
+.site-header{position:sticky;top:0;background:rgba(32, 32, 36, 0.699);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:50}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
+.brand{display:grid;grid-auto-flow:column;align-items:center;gap:.6rem;color:var(--text)}
+.brand-mark{width:30px;height:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.45))}
+.brand-name{font-weight:700;letter-spacing:.8px;font-family:var(--ff-display)}
+.nav{display:flex;align-items:center;gap:1rem}
+.nav-link{padding:.5rem .7rem;border-radius:var(--radius-sm);color:var(--text);opacity:.9;transition:background 180ms var(--ease),opacity 180ms var(--ease),transform 180ms var(--ease)}
+.nav-link:hover{opacity:1;background:var(--bg-elev);transform:translateY(-1px)}
+.nav-link.cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0b0d;font-weight:800;box-shadow:0 6px 18px rgba(199,163,92,.25)}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);color:var(--text);padding:.4rem .6rem;border-radius:var(--radius-sm)}
+@media (max-width:860px){
+  .nav{position:absolute;right:4%;top:64px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-md);padding:.6rem;display:none;flex-direction:column;min-width:220px;box-shadow:var(--shadow-lg)}
+  .nav.open{display:flex}
+  .nav-toggle{display:inline-block}
+}
+
+/* ============= 6) Hero & componentes ============= */
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center;padding:clamp(36px,5vw,64px) 0}
+.highlight{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.actions{display:flex;gap:.8rem;margin-top:1rem}
+.btn{display:inline-block;text-decoration:none;border:1px solid var(--border);padding:.7rem 1rem;border-radius:12px;color:var(--text);font-weight:700;transition:transform 180ms var(--ease),background 180ms var(--ease),box-shadow 180ms var(--ease)}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0b0d;box-shadow:0 10px 24px rgba(199,163,92,.25)}
+.btn.ghost{background:transparent}.btn.ghost:hover{background:#0e1014}
+.cover{border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow-lg);transform:perspective(900px) rotateY(-8deg);transform-origin:center left;transition:transform 400ms var(--ease),box-shadow 400ms var(--ease);cursor:pointer}
+.cover:hover{transform:perspective(900px) rotateY(-2deg);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.grid-two{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:32px 0}
+.card{background:linear-gradient(180deg,var(--bg-elev),var(--bg-elev-2));border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);padding:1rem}
+.bullets{line-height:1.8}
+.bullets li{position:relative;padding-left:1.2rem}
+.bullets li::before{content:"";position:absolute;left:0;top:.65rem;width:.55rem;height:.55rem;border-radius:999px;background:radial-gradient(circle at 40% 40%, var(--accent-2), var(--accent));box-shadow:0 0 0 2px rgba(199,163,92,.18)}
+
+/* Formulários */
+.field{display:grid;gap:.4rem;margin:.7rem 0}
+.field span{color:var(--muted);font-size:.95rem}
+.field input,.field select{background:#0f1115;color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.65rem .75rem;outline:2px solid transparent;transition:outline 180ms var(--ease),border-color 180ms var(--ease),background 180ms var(--ease)}
+.field input:focus,.field select:focus{border-color:var(--accent);outline:2px solid rgba(199,163,92,.25)}
+
+/* Seção destacada */
+.band{background:linear-gradient(90deg,rgba(199,163,92,.08),rgba(224,210,168,.06));border-block:1px solid var(--border);margin:40px 0}
+.band-inner{padding:24px 0;text-align:center}
+
+/* Rodapé */
+.site-footer{border-top:1px solid var(--border);margin-top:40px}
+.site-footer .container{padding:10px 0;text-align:center}
+
+/* Autor */
+.author-photo{border-radius:50%;width:220px;height:220px;object-fit:cover;border:2px solid var(--border);box-shadow:var(--shadow-lg)}
+
+/* ============= 7) Overlay “Livro” (sinopse) ============= */
+.book-overlay{position:fixed;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity 260ms var(--ease);z-index:100}
+.book-overlay.open{opacity:1;pointer-events:auto}
+.book-overlay-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(2px)}
+.book-wrap{position:relative;width:min(1000px,92vw);height:min(640px,86vh);display:grid;place-items:center;z-index:2}
+.book-close{position:absolute;top:-10px;right:-10px;background:var(--bg-elev);color:var(--text);border:1px solid var(--border);border-radius:999px;width:40px;height:40px;display:grid;place-items:center;box-shadow:var(--shadow-lg);cursor:pointer;z-index:3}
+.book{position:relative;width:100%;height:100%;transform-style:preserve-3d;perspective:1800px;display:grid;grid-template-columns:1fr 1fr;gap:0;background:transparent}
+.book-hinges{position:absolute;top:0;bottom:0;left:50%;width:2px;background:linear-gradient(180deg,rgba(199,163,92,.25),rgba(199,163,92,.05));transform:translateX(-1px);z-index:1;pointer-events:none}
+.page{position:relative;background:linear-gradient(180deg,#f7f3e7,#f0ead6);color:#243142;border:1px solid #e4dcc5;box-shadow:0 24px 50px rgba(0,0,0,.25);border-radius:10px;padding:1.4rem 1.6rem;overflow:hidden}
+.page header h2,.page header h3{color:#1f2937;text-shadow:none;font-family:var(--ff-serif)}
+.page .page-content{max-width:64ch}
+.page .page-footer{margin-top:1rem;color:#475569}
+.page-left{transform-origin:right center;border-top-right-radius:0;border-bottom-right-radius:0}
+.page-right{transform-origin:left center;border-top-left-radius:0;border-bottom-left-radius:0}
+.book-overlay.open .page-left{animation:bookOpenLeft 480ms var(--ease) both}
+.book-overlay.open .page-right{animation:bookOpenRight 520ms var(--ease) both}
+@keyframes bookOpenLeft{0%{transform:rotateY(12deg) translateX(8px)}50%{transform:rotateY(4deg) translateX(2px)}100%{transform:rotateY(0) translateX(0)}}
+@keyframes bookOpenRight{0%{transform:rotateY(-140deg) translateX(-12px)}60%{transform:rotateY(-8deg) translateX(-2px)}100%{transform:rotateY(0) translateX(0)}}
+.page::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 200px at 50% -10%,rgba(0,0,0,.05),transparent 60%),repeating-linear-gradient(90deg,rgba(0,0,0,.02) 0 1px,transparent 1px 3px);pointer-events:none}
+
+/* Oculta #sinopse original em telas largas (overlay substitui) */
+@media (min-width:861px){#sinopse{display:none}}
+
+/* ============= 8) Responsividade ============= */
+@media (max-width:1280px){.container{width:min(1080px,94%)}.hero{gap:1.6rem}}
+@media (max-width:1024px){.container{width:min(980px,94%)}h1{font-size:clamp(1.8rem,3.4vw,3rem)}.hero{grid-template-columns:1fr 1fr}}
+@media (max-width:860px){.container{width:min(760px,94%)}.hero{grid-template-columns:1fr;text-align:center}.actions{justify-content:center;flex-wrap:wrap}.cover{margin-inline:auto}.grid-two{grid-template-columns:1fr}}
+@media (max-width:640px){.container{width:92%;padding-left:1rem;padding-right:1rem}.nav-link{padding:.55rem .7rem}.brand-name{font-size:1rem}.btn{width:100%;text-align:center}}
+
+/* ============= 9) A11y/Motion ============= */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+/* =========================
+   Loja (grade + formulário)
+   ========================= */
+   .nav .nav-link.active { opacity: 1; background: var(--bg-elev); }
+
+   .shop { padding: clamp(24px, 4vw, 40px) 0 56px; }
+   .shop-head h1 { margin-bottom: .25rem; }
+   .shop-toolbar {
+     display: flex; gap: .8rem; align-items: center; justify-content: space-between;
+     margin: 16px 0 18px;
+     flex-wrap: wrap;
+   }
+   .shop-toolbar .search { flex: 1 1 320px; }
+   .shop-toolbar .search input{
+     width: 100%;
+     background: #0f1115;
+     color: var(--text);
+     border: 1px solid var(--border);
+     border-radius: 12px;
+     padding: .75rem .9rem;
+   }
+   
+   .product-form {
+     background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+     border: 1px solid var(--border);
+     border-radius: 16px;
+     padding: 1rem;
+     margin: 8px 0 22px;
+     box-shadow: var(--shadow-lg);
+     transition: grid-template-rows 240ms var(--ease), opacity 240ms var(--ease);
+   }
+   .product-form.hidden { display: none; }
+   .product-form h2 { margin: .25rem 0 1rem; }
+   .product-form .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+   @media (max-width: 720px){ .product-form .grid-2 { grid-template-columns: 1fr; } }
+   .product-form .field { display: grid; gap: .4rem; }
+   .product-form .field input, .product-form .field textarea {
+     background: #0f1115; color: var(--text);
+     border: 1px solid var(--border); border-radius: 10px;
+     padding: .65rem .75rem;
+   }
+   .product-form .form-actions { display: flex; gap: .6rem; margin-top: .8rem; }
+   
+   .shop-list-head {
+     display: flex; align-items: baseline; justify-content: space-between; margin-bottom: .6rem;
+   }
+   
+   .products-grid{
+     display: grid;
+     grid-template-columns: repeat(3, minmax(0,1fr));
+     gap: 1rem;
+   }
+   @media (max-width: 1100px){ .products-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+   @media (max-width: 680px){ .products-grid{ grid-template-columns: 1fr; } }
+   
+   .product-card{
+     background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+     border: 1px solid var(--border);
+     border-radius: 16px;
+     overflow: hidden;
+     box-shadow: var(--shadow-lg);
+     display: grid; grid-template-rows: auto 1fr;
+   }
+   .product-img{ aspect-ratio: 4/3; background:#0f1115; display:grid; place-items:center; overflow:hidden }
+   .product-img img{ width:100%; height:100%; object-fit:cover }
+   .product-body{ padding: .9rem .9rem 1rem; display:grid; gap:.5rem }
+   .product-title{ font-size: 1.05rem; margin:0 }
+   .product-desc{ color: var(--muted); font-size: .95rem; line-height: 1.55; }
+   .product-meta{
+     display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-top:.25rem;
+   }
+   .price{ font-weight: 800; letter-spacing: .3px; }
+   .badge{
+     display:inline-block; padding:.25rem .5rem; border:1px solid var(--border);
+     border-radius: 999px; font-size: .8rem; color: var(--text); opacity:.9;
+   }
+   .product-actions{ display:flex; justify-content:flex-end; margin-top:.3rem }
+   .empty-state{ text-align:center; margin: 20px 0 0; }
+   /* ===== Menu acionado pelo "Meu Livro" ===== */
+.menu-panel{
+  position: fixed;
+  top: 64px;                 /* altura do header */
+  left: 16px;
+  width: min(320px, 92vw);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  z-index: 80;
+}
+.menu-panel[hidden]{ display: none; }
+
+.menu-list{ display: grid; }
+.menu-list a{
+  display: block;
+  padding: .75rem .9rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.menu-list a:last-child{ border-bottom: 0; }
+.menu-list a.cta{
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #0b0b0d;
+  border: 0;
+  margin: .5rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* backdrop para fechar ao clicar fora */
+.menu-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  z-index: 70;
+}
+.menu-backdrop[hidden]{ display: none; }
