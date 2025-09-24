@@ -116,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
     bind();
   }
 })();
-// ===== Menu acionado pelo "Meu Livro" =====
+
+
+// ===== Menu mobile (toggle) =====
 (function(){
   const btn = document.querySelector('.nav-toggle');
   const nav = document.getElementById('primary-nav');
@@ -133,3 +135,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
+
+/// ===== Efeito “trincado” — base real se fragmenta (sem cópia atrás) =====
+(function(){
+  const el = document.getElementById('shatter');
+  if (!el) return;
+
+  const text = el.dataset.text || el.textContent.trim();
+  // mede o tamanho atual do texto antes de substituir
+  const rect = el.getBoundingClientRect();
+
+  // congela o layout do container para não colapsar após remover o texto
+  el.style.display  = 'inline-block';
+  el.style.position = 'relative';
+  el.style.width    = rect.width  + 'px';
+  el.style.height   = rect.height + 'px';
+
+  // substitui o conteúdo: só shards (sem base visível)
+  el.textContent = '';
+
+  const shards = 12;
+  for (let i = 0; i < shards; i++){
+    const s = document.createElement('span');
+    s.className = 'shard';
+    s.setAttribute('data-text', text);
+
+    // micro offsets (trinca), não “explode”
+    const tx = (Math.random() * 2 - 1) * 8;   // -8..8 px
+    const ty = (Math.random() * 2 - 1) * 4;   // -4..4 px
+    const rz = (Math.random() * 2 - 1) * 3;   // -3..3 deg
+    const delay = (i * 0.015).toFixed(3);     // leve “stagger”
+
+    s.style.setProperty('--tx', tx.toFixed(1) + 'px');
+    s.style.setProperty('--ty', ty.toFixed(1) + 'px');
+    s.style.setProperty('--rz', rz.toFixed(1) + 'deg');
+    s.style.transitionDelay = delay + 's';
+
+    el.appendChild(s);
+  }
+})();

@@ -28,31 +28,37 @@
   <body>
     <!-- FUMAÇA CSS-ONLY EM TELA INTEIRA -->
     <div class="cloud">
-                 <img src="imagens/clouds.png" alt="" class="img_cloud"></div>
-   <header class="site-header">
-  <div class="container nav-wrap">
-    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
-    <nav id="primary-nav" class="nav">
-      <a href="index.html" class="nav-link">Início</a>
-      <a href="autor.html" class="nav-link">Sobre o Autor</a>
-      <a href="comprar.html" class="nav-link cta">Comprar</a>
-    </nav>
-  </div>
-</header>
+      <img src="imagens/clouds.png" alt="" class="img_cloud">
+    </div>
+
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+        <nav id="primary-nav" class="nav">
+          <a href="index.html" class="nav-link">Início</a>
+          <a href="autor.html" class="nav-link">Sobre o Autor</a>
+          <a href="comprar.html" class="nav-link cta">Comprar</a>
+        </nav>
+      </div>
+    </header>
+
     <main>
       <!-- HERO -->
       <section class="hero container">
         <div class="hero-text">
           <h1 class="hero-title">
-  <span class="hero-line1">Seu próximo favorito</span>
-  <span class="hero-line2">QUEBRADO</span></h1>
+            <span class="hero-line1">Seu próximo favorito</span>
+            <!-- ALVO DO EFEITO -->
+            <span id="shatter" class="hero-line2 glass" data-text="QUEBRADO">QUEBRADO</span>
+          </h1>
           <p>Uma história envolvente que mistura emoção, aprendizado e inspiração.<br>
-           Disponível em formato físico e digital.</p>
+            Disponível em formato físico e digital.</p>
           <div class="actions">
             <a class="btn primary" href="comprar.html">Comprar agora</a>
             <a class="btn ghost" href="assets/primeiro-capitulo-exemplo.pdf" download target="_blank" rel="noopener">Baixar prévia (PDF)</a>
           </div>
         </div>
+
         <div class="hero-media">
           <!-- Capa que abre o “livro” -->
           <img
@@ -69,7 +75,7 @@
         </div>
       </section>
 
-      <!-- Seção de sinopse original (mantida para SEO; oculta em telas largas) -->
+      <!-- Seção de sinopse (mantida para SEO; oculta em telas largas) -->
       <section id="sinopse" class="container grid-two">
         <div>
           <h2>Sinopse</h2>
@@ -90,7 +96,7 @@
         </aside>
       </section>
 
-      <!-- OVERLAY: Livro que abre com a sinopse (página direita) -->
+      <!-- OVERLAY: Livro -->
       <div id="bookOverlay" class="book-overlay" aria-hidden="true" aria-labelledby="bookTitle" role="dialog">
         <div class="book-overlay-backdrop" data-close="true"></div>
         <div class="book-wrap" role="document">
@@ -110,7 +116,7 @@
               <footer class="page-footer small muted">© Seu Nome</footer>
             </section>
 
-            <!-- Página direita: SINOPSE + numeração “1” (sem botão) -->
+            <!-- Página direita -->
             <section class="page page-right">
               <header class="page-header"><h3>Sinopse</h3></header>
               <article class="page-content prose" id="book-sinopse">
@@ -134,7 +140,6 @@
                   Retratos na parede observavam como juízes mudos.<br>
                   No terceiro degrau, o rangido denunciou sua volta.<br>
                   Cartas seladas por medo pediam luz e leitura.<br>
-                  
                 </p>
               </article>
               <footer class="page-footer">1</footer>
@@ -152,29 +157,29 @@
     </footer>
 
     <script src="script.js"></script>
-    <!-- Fallback mínimo para abrir/fechar o overlay caso o script principal não tenha o controle do livro -->
+
+    <!-- Fallback do overlay (mantido) -->
     <script>
       (function(){
         if (window.__bookInit) return;
         window.__bookInit = true;
-    
+
         const trigger  = document.getElementById('book-cover-trigger');
         const overlay  = document.getElementById('bookOverlay');
         const closeBtn = overlay && overlay.querySelector('.book-close');
         const backdrop = overlay && overlay.querySelector('.book-overlay-backdrop');
-    
-        const openLink = document.getElementById('open-book')       // << NOVO
-                       || document.querySelector('a[href="#sinopse"]'); // << NOVO
-    
+
+        const openLink = document.getElementById('open-book')
+                       || document.querySelector('a[href="#sinopse"]');
+
         let lastFocus = null;
-    
+
         function openBook(){
           lastFocus = document.activeElement;
           overlay.classList.add('open');
           overlay.setAttribute('aria-hidden','false');
           closeBtn && closeBtn.focus();
           document.addEventListener('keydown', onKey);
-          // se um dia houver “virar páginas”, aqui é o lugar de resetar para a 1
         }
         function closeBook(){
           overlay.classList.remove('open');
@@ -183,24 +188,22 @@
           lastFocus && lastFocus.focus && lastFocus.focus();
         }
         function onKey(e){ if(e.key==='Escape') closeBook(); }
-    
-        // capa
+
         trigger && trigger.addEventListener('click', openBook);
         trigger && trigger.addEventListener('keydown', e => {
           if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBook(); }
         });
-    
-        // “Ler sinopse”
+
         if (openLink){
-          openLink.addEventListener('click', e => { e.preventDefault(); openBook(); });   // << NOVO
-          openLink.addEventListener('keydown', e => {                                     // << NOVO
-            if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBook(); }         // << NOVO
-          });                                                                              // << NOVO
+          openLink.addEventListener('click', e => { e.preventDefault(); openBook(); });
+          openLink.addEventListener('keydown', e => {
+            if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBook(); }
+          });
         }
 
         closeBtn && closeBtn.addEventListener('click', closeBook);
         backdrop && backdrop.addEventListener('click', e => { if (e.target === backdrop) closeBook(); });
       })();
-    </script>    
+    </script>
   </body>
 </html>
