@@ -43,7 +43,7 @@ img,svg{display:block;max-width:100%}
   bottom: 0;
   width: 250.625em;
   height: 43.75em;
-  animation: rotationLeft 260s linear infinite;
+  animation: rotationLeft 150s linear infinite;
   z-index: 1;
 }
 
@@ -280,3 +280,118 @@ a:hover{color:#fff}
   z-index: 70;
 }
 .menu-backdrop[hidden]{ display: none; }
+
+
+
+/* ===== Sobre o Autor ===== */
+.author{ padding: clamp(50px, 4vw, 50px) 0 56px; }
+.author-head{ margin-bottom: 1.2rem; }
+.author-title{
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  letter-spacing: 40px;
+}
+.author-sub{ margin-top: .3rem; }
+
+.author-grid{
+  display: grid;
+  grid-template-columns: 1.2fr .8fr; /* texto à esquerda, foto à direita */
+  gap: 5rem;
+  align-items: start;
+}
+
+.author-bio{
+  font-family: var(--ff-serif);
+  font-size: 1rem;     /* pequeno e elegante */
+  line-height: 2;
+  color: var(--text);
+  opacity: .95;
+}
+
+.author-aside{
+  display: grid;
+  gap: 1rem;
+  justify-items: center; /* centraliza a foto e os links na coluna da direita */
+}
+
+.author-photo{
+  width: 400px; height: 400px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  background: #0f1115;
+}
+
+.author-socials{
+  display: flex; gap: .6rem; flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-link{
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  background: var(--bg-elev);
+  transition: transform 160ms var(--ease), background 160ms var(--ease), opacity 160ms var(--ease);
+}
+.social-link:hover{ transform: translateY(-1px); opacity: 1; background: var(--bg-elev-2); }
+
+/* responsivo */
+@media (max-width: 900px){
+  .author-grid{
+    grid-template-columns: 1fr;
+  }
+  .author-aside{ order: -1; } /* foto e redes sobem para cima do texto em telas menores */
+}
+
+/* acessibilidade pontual */
+.visually-hidden{
+  position:absolute!important; width:1px!important; height:1px!important;
+  margin:-1px!important; padding:0!important; overflow:hidden!important;
+  clip:rect(0 0 0 0)!important; white-space:nowrap!important; border:0!important;
+}
+
+/* ===== Hero: título em duas linhas + kicker ===== */
+.hero-title{
+  font-family: var(--ff-display);
+  line-height: 0.95;
+  letter-spacing: .8px;
+  margin: 0 0 .25rem;
+}
+.hero-line1{
+  display: block;
+  font-weight: 50;
+  /* primeira linha: grande */
+  font-size: clamp(1.05rem, 4vw, 3.4rem);
+}
+.hero-line2{
+  display: block;
+  font-weight: 900;
+  /* segunda linha: ainda maior */
+  font-size: clamp(3rem, 7vw, 5rem);
+  /* efeito “elegante” com gradient */
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-kicker{
+  margin-top: .35rem;               /* pequeno espaço abaixo do título */
+  font-family: var(--ff-display);
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: clamp(1.6rem, 4.5vw, 2.6rem); /* “QUEBRADO” maior */
+  color: #f1f2f4;
+  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+}
+.nav-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* centraliza o nav */
+  padding:.8rem 0;
+  position: relative;
+}

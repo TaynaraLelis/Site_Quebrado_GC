@@ -118,52 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 // ===== Menu acionado pelo "Meu Livro" =====
 (function(){
-  const trigger  = document.getElementById('menuTriggerBrand');
-  const panel    = document.getElementById('menuPanel');
-  const list     = panel ? panel.querySelector('.menu-list') : null;
-  const backdrop = document.getElementById('menuBackdrop');
-  const headerNav= document.getElementById('primary-nav');
-
-  if (!trigger || !panel || !list || !headerNav) return;
-
-  // Clona os links do header e adiciona "Admin" no final
-  const links = Array.from(headerNav.querySelectorAll('a.nav-link, a.nav-link.cta'));
-  list.innerHTML = links.map(a => {
-    const cls = a.className;
-    const href = a.getAttribute('href');
-    const text = a.textContent.trim();
-    return `<a class="${cls}" href="${href}">${text}</a>`;
-  }).join('') + `<a class="nav-link" href="admin.html">Admin</a>`;
-
-  function openMenu(){
-    panel.hidden = false;
-    backdrop.hidden = false;
-    trigger.setAttribute('aria-expanded','true');
-    document.addEventListener('keydown', onKey);
-  }
-  function closeMenu(){
-    panel.hidden = true;
-    backdrop.hidden = true;
-    trigger.setAttribute('aria-expanded','false');
-    document.removeEventListener('keydown', onKey);
-  }
-  function onKey(e){ if (e.key === 'Escape') closeMenu(); }
-
-  // Clique no "Meu Livro" abre/fecha (evita navegação)
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    panel.hidden ? openMenu() : closeMenu();
+  const btn = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('primary-nav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
   });
-  // Teclado acessível
-  trigger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMenu(); }
-  });
-
-  // Fecha ao clicar fora
-  backdrop && backdrop.addEventListener('click', closeMenu);
-  document.addEventListener('click', (e) => {
-    if (panel.hidden) return;
-    const inside = panel.contains(e.target) || trigger.contains(e.target);
-    if (!inside) closeMenu();
+  nav.addEventListener('click', (e) => {
+    if (e.target.closest('a')) {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
   });
 })();
+

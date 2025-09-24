@@ -29,49 +29,34 @@
     <!-- FUMAÇA CSS-ONLY EM TELA INTEIRA -->
     <div class="cloud">
                  <img src="imagens/clouds.png" alt="" class="img_cloud"></div>
-      
-    <header class="site-header">
-      <div class="container nav-wrap">
-        <a id="menuTriggerBrand" class="brand"
-   href="index.html"
-   role="button"
-   aria-haspopup="true"
-   aria-controls="menuPanel"
-   aria-expanded="false"
-   aria-label="Abrir menu">
-          <img src="assets/favicon.svg" alt="" class="brand-mark" />
-          <span class="brand-name">Meu livro</span>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
-        <nav id="primary-nav" class="nav">
-          <a href="index.html" class="nav-link">Início</a>
-          <a href="autor.html" class="nav-link">Sobre o Autor</a>
-          <a href="loja.html" class="nav-link">Loja</a>
-          <a href="comprar.html" class="nav-link cta">Comprar</a>
-        </nav>
-      </div>
-      <!-- Painel do menu acionado pelo "Meu Livro" -->
-<div id="menuPanel" class="menu-panel" hidden>
-  <nav class="menu-list" aria-label="Menu principal"></nav>
-</div>
-<div id="menuBackdrop" class="menu-backdrop" hidden></div>
-    </header>
-
+   <header class="site-header">
+  <div class="container nav-wrap">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+    <nav id="primary-nav" class="nav">
+      <a href="index.html" class="nav-link">Início</a>
+      <a href="autor.html" class="nav-link">Sobre o Autor</a>
+      <a href="comprar.html" class="nav-link cta">Comprar</a>
+    </nav>
+  </div>
+</header>
     <main>
       <!-- HERO -->
       <section class="hero container">
         <div class="hero-text">
-          <h1>Seu próximo favorito: <span class="highlight">Meu Livro</span></h1>
-          <p>Uma história envolvente que mistura emoção, aprendizado e inspiração. Disponível em formato físico e digital.</p>
+          <h1 class="hero-title">
+  <span class="hero-line1">Seu próximo favorito</span>
+  <span class="hero-line2">QUEBRADO</span></h1>
+          <p>Uma história envolvente que mistura emoção, aprendizado e inspiração.<br>
+           Disponível em formato físico e digital.</p>
           <div class="actions">
             <a class="btn primary" href="comprar.html">Comprar agora</a>
-            <a id="open-book" class="btn ghost" href="#sinopse">Ler sinopse</a>
+            <a class="btn ghost" href="assets/primeiro-capitulo-exemplo.pdf" download target="_blank" rel="noopener">Baixar prévia (PDF)</a>
           </div>
         </div>
         <div class="hero-media">
           <!-- Capa que abre o “livro” -->
           <img
-            src="imagens/capa1.png"
+            src="imagens/quebrado1capa.jpg"
             alt="Capa do livro Meu Livro"
             class="cover"
             id="book-cover-trigger"

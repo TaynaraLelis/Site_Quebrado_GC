@@ -1,117 +1,140 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Comprar — Meu Livro</title>
-<meta name="description" content="Garanta seu exemplar agora" />
-<meta name="theme-color" content="#111827" />
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="styles-darkside.css" />
-<meta property="og:title" content="Comprar — Meu Livro" />
-<meta property="og:description" content="Garanta seu exemplar agora" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="assets/cover-placeholder.svg" />
-<meta property="og:url" content="https://example.com" />
-
-  </head>
-  <body>
-    <header class="site-header">
-  <div class="container nav-wrap">
-    <a class="brand" href="index.html" aria-label="Página inicial">
-      <img src="assets/favicon.svg" alt="" class="brand-mark" />
-      <span class="brand-name">Meu Livro</span>
-    </a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">
-      ☰
-    </button>
-    <nav id="primary-nav" class="nav">
-      <a href="index.html" class="nav-link">Início</a>
-      <a href="autor.html" class="nav-link">Sobre o Autor</a>
-      <a href="comprar.html" class="nav-link cta">Comprar</a>
-    </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Comprar — Meu Livro</title>
+  <meta name="theme-color" content="#111827" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles-darkside.css" />
+</head>
+<body>
+  <!-- Fundo: nuvem animada -->
+  <div class="cloud" aria-hidden="true">
+    <img src="imagens/clouds.png" alt="" class="img_cloud">
   </div>
-</header>
 
-    <main class="container">
-      <h1>Comprar</h1>
-      <div class="grid-two">
-        <section>
-          <h2>Escolha o formato</h2>
-          <form class="card" onsubmit="return handleCheckout(event)">
-            <label class="field">
-              <span>Formato</span>
-              <select id="formato" required>
-                <option value="fisico">Livro físico</option>
-                <option value="ebook">eBook (PDF/ePub)</option>
-                <option value="combo">Combo (Físico + eBook)</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Quantidade</span>
-              <input type="number" id="quantidade" min="1" value="1" required />
-            </label>
-            <label class="field">
-              <span>E-mail</span>
-              <input type="email" id="email" placeholder="voce@exemplo.com" required />
-            </label>
-            <div class="prices">
-              <p><strong>Preço:</strong> <span id="preco">R$ 39,90</span></p>
-            </div>
-            <button class="btn primary" type="submit">Continuar</button>
-            <p class="small muted">* Exemplo. Integre Mercado Pago/Stripe ou link de WhatsApp.</p>
-          </form>
-          <div class="card">
-            <h3>Pagamento rápido</h3>
-            <p>Prefere falar no WhatsApp?</p>
-            <a class="btn ghost" id="zaplink" href="#" target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
-          </div>
-        </section>
-        <aside>
-          <div class="card">
-            <h3>O que você recebe</h3>
-            <ul class="bullets">
-              <li>Envio em até 3 dias úteis (edite)</li>
-              <li>Suporte por e-mail/WhatsApp</li>
-              <li>Garantia de 7 dias para reembolso (edite)</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Dúvidas?</h3>
-            <p>contato@seudominio.com</p>
-          </div>
-        </aside>
-      </div>
-    </main>
-    <footer class="site-footer">
-  <div class="container">
-    <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
-    <p class="small">Este site é um exemplo base para VSCode. Personalize títulos, textos e imagens.</p>
-  </div>
-</footer>
-<script src="script.js"></script>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <!-- “Meu Livro” abre o menu também aqui -->
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+      <nav id="primary-nav" class="nav">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="autor.html" class="nav-link">Sobre o Autor</a>
+        <a href="comprar.html" class="nav-link cta">Comprar</a>
+      </nav>
+    </div>
+  </header>
 
-    <script>
-      const precoBase = {"fisico": 39.90, "ebook": 24.90, "combo": 54.90};
-      const precoEl = document.getElementById('preco');
-      const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-      const selectFmt = document.getElementById('formato');
-      const qtd = document.getElementById('quantidade');
-      const email = document.getElementById('email');
-      const zap = document.getElementById('zaplink');
-      function updatePrice() {
-        const f = selectFmt.value;
-        const q = Math.max(1, parseInt(qtd.value || '1', 10));
-        const total = precoBase[f] * q;
-        precoEl.textContent = fmt.format(total);
-        const msg = encodeURIComponent(`Olá! Quero comprar *Meu Livro*. Formato: ${f} | Qtd: ${q} | Total: ${fmt.format(total)} | E-mail: ${email.value}`);
-        zap.href = `https://wa.me/5599999999999?text=${msg}`;
-      }
-      selectFmt.addEventListener('change', updatePrice);
-      qtd.addEventListener('input', updatePrice);
-      email.addEventListener('input', updatePrice);
-      updatePrice();
-      function handleCheckout(e) { e.preventDefault(); alert('Integre com seu provedor de pagamento.'); return false; }
-    </script>
-  </body>
+  <main class="container buy">
+    <header class="shop-head">
+      <h1>Finalizar compra</h1>
+      <p class="muted">Escolha o formato, informe a quantidade e seu nome. Você será direcionado ao WhatsApp para concluir o pedido.</p>
+    </header>
+
+    <section class="product-form" aria-labelledby="buyFormTitle">
+      <h2 id="buyFormTitle">Detalhes do pedido</h2>
+
+      <form id="buyForm">
+        <div class="grid-2">
+          <label class="field">
+            <span>Formato*</span>
+            <select id="formato" required>
+              <option value="">Selecione</option>
+              <option>Físico (Brochura)</option>
+              <option>eBook (PDF/ePub)</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Quantidade*</span>
+            <input id="quantidade" type="number" min="1" step="1" value="1" required>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Seu nome*</span>
+          <input id="nome" type="text" placeholder="Como devemos te chamar?" required>
+        </label>
+
+        <label class="field">
+          <span>Observações (opcional)</span>
+          <textarea id="obs" rows="3" placeholder="Ex.: Autografar para Fulano, enviar presente, etc."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Enviar pelo WhatsApp</button>
+          <a href="index.html" class="btn ghost">Voltar</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="card note">
+      <p class="small muted">
+        Não processamos pagamentos no site. Você confirmará o pedido e combinará pagamento/entrega diretamente pelo WhatsApp.
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu acionado pelo “Meu Livro”
+    (function(){
+      const trigger  = document.getElementById('menuTriggerBrand');
+      const panel    = document.getElementById('menuPanel');
+      const list     = panel ? panel.querySelector('.menu-list') : null;
+      const backdrop = document.getElementById('menuBackdrop');
+      const headerNav= document.getElementById('primary-nav');
+      if (!trigger || !panel || !list || !headerNav) return;
+      const links = Array.from(headerNav.querySelectorAll('a.nav-link, a.nav-link.cta'));
+      list.innerHTML = links.map(a => `<a class="${a.className}" href="${a.getAttribute('href')}">${a.textContent.trim()}</a>`).join('');
+      function openMenu(){ panel.hidden=false; backdrop.hidden=false; trigger.setAttribute('aria-expanded','true'); document.addEventListener('keydown', onKey); }
+      function closeMenu(){ panel.hidden=true;  backdrop.hidden=true;  trigger.setAttribute('aria-expanded','false'); document.removeEventListener('keydown', onKey); }
+      function onKey(e){ if (e.key==='Escape') closeMenu(); }
+      trigger.addEventListener('click', e => { e.preventDefault(); panel.hidden ? openMenu() : closeMenu(); });
+      trigger.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openMenu(); }});
+      backdrop && backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('click', e => { if (panel.hidden) return; const inside = panel.contains(e.target) || trigger.contains(e.target); if (!inside) closeMenu(); });
+    })();
+
+    // WhatsApp redirect (sem pagamento no site)
+    (function(){
+      const form = document.getElementById('buyForm');
+      const phone = '5599999999999'; // <<< TROQUE PELO SEU NÚMERO COM DDI+DDD (ex.: 55 11 91234-5678 => 5511912345678)
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formato = document.getElementById('formato').value.trim();
+        const quantidade = parseInt(document.getElementById('quantidade').value, 10) || 1;
+        const nome = document.getElementById('nome').value.trim();
+        const obs = document.getElementById('obs').value.trim();
+
+        if (!formato || !nome) {
+          alert('Preencha “Formato” e “Seu nome”.');
+          return;
+        }
+
+        const msg = [
+          'Olá! Quero comprar "Meu Livro".',
+          `Formato: ${formato}`,
+          `Quantidade: ${quantidade}`,
+          `Nome: ${nome}`,
+          obs ? `Observações: ${obs}` : null,
+          '',
+          'Podemos seguir com pagamento e envio?'
+        ].filter(Boolean).join('\n');
+
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank'); // abre o WhatsApp
+      });
+
+      const yr=document.getElementById('year'); if(yr) yr.textContent=new Date().getFullYear();
+    })();
+  </script>
+</body>
 </html>

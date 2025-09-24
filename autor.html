@@ -1,60 +1,114 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sobre o Autor — Meu Livro</title>
-<meta name="description" content="Conheça a trajetória do autor" />
-<meta name="theme-color" content="#111827" />
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="styles-darkside.css" />
-<meta property="og:title" content="Sobre o Autor — Meu Livro" />
-<meta property="og:description" content="Conheça a trajetória do autor" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="assets/cover-placeholder.svg" />
-<meta property="og:url" content="https://example.com" />
-
-  </head>
-  <body>
-    <header class="site-header">
-  <div class="container nav-wrap">
-    <a class="brand" href="index.html" aria-label="Página inicial">
-      <img src="assets/favicon.svg" alt="" class="brand-mark" />
-      <span class="brand-name">Meu Livro</span>
-    </a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">
-      ☰
-    </button>
-    <nav id="primary-nav" class="nav">
-      <a href="index.html" class="nav-link">Início</a>
-      <a href="autor.html" class="nav-link">Sobre o Autor</a>
-      <a href="comprar.html" class="nav-link cta">Comprar</a>
-    </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sobre o Autor — Meu Livro</title>
+  <meta name="theme-color" content="#111827" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles-darkside.css" />
+</head>
+<body>
+  <!-- Fundo: nuvem animada -->
+  <div class="cloud" aria-hidden="true">
+    <img src="imagens/clouds.png" alt="" class="img_cloud">
   </div>
-</header>
 
-    <main class="container grid-two">
-      <div>
-        <h1>Sobre o Autor</h1>
-        <p>Escreva uma biografia curta (10–12 linhas). Destaque sua trajetória, motivações e credenciais.</p>
-        <ul class="socials">
-          <li><a href="#" aria-label="Instagram">Instagram</a></li>
-          <li><a href="#" aria-label="LinkedIn">LinkedIn</a></li>
-          <li><a href="mailto:contato@seudominio.com" aria-label="Email">E-mail</a></li>
-        </ul>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <!-- “Meu Livro” abre o menu -->
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">☰</button>
+      <nav id="primary-nav" class="nav">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="autor.html" class="nav-link active">Sobre o Autor</a>
+        <a href="comprar.html" class="nav-link cta">Comprar</a>
+      </nav>
+
+      <!-- Painel do menu acionado pela marca -->
+      <div id="menuPanel" class="menu-panel" hidden>
+        <nav class="menu-list" aria-label="Menu principal"></nav>
       </div>
-      <aside class="card center">
-        <img src="assets/author-placeholder.svg" alt="Foto do autor" class="author-photo" />
-        <p class="small muted">Substitua pela sua foto.</p>
-      </aside>
-    </main>
-    <footer class="site-footer">
-  <div class="container">
-    <p>© <span id="year"></span> Meu Livro — Todos os direitos reservados.</p>
-    <p class="small">Este site é um exemplo base para VSCode. Personalize títulos, textos e imagens.</p>
-  </div>
-</footer>
-<script src="script.js"></script>
+      <div id="menuBackdrop" class="menu-backdrop" hidden></div>
+    </div>
+  </header>
 
-  </body>
+  <main class="container author">
+    <header class="author-head">
+      <h1 class="author-title">Sobre o Autor</h1>
+      <p class="author-sub muted">Conheça a jornada, as influências e os bastidores de Quebrado.</p>
+    </header>
+
+    <section class="author-grid">
+      <!-- Texto à esquerda -->
+      <article class="author-bio prose">
+        <h2 class="visually-hidden">Biografia</h2>
+        <p>
+          Nascido entre livros e cadernos rabiscados, o autor sempre tratou a escrita como um
+          lugar de encontro: entre memória e imaginação, entre dúvida e coragem. Ao longo dos
+          anos, pesquisou personagens reais e inventados, misturando experiências cotidianas
+          com observações delicadas sobre o mundo.
+        </p>
+        <p>
+          O ponto de partida deste livro foi uma pergunta simples: <em>o que acontece quando
+          escutamos o que silenciamos?</em> A partir daí, vieram cenas, cartas e uma cidade
+          que respira como personagem. O resultado é uma narrativa íntima, com olhar atento
+          para as pequenas coisas que, juntas, viram mudança.
+        </p>
+        <p>
+          Quando não está escrevendo, o autor conduz oficinas de leitura, conversa com leitores
+          nas redes e cultiva o hábito de caminhar sem pressa — porque é no intervalo do caminho
+          que as ideias se ajeitam.
+        </p>
+      </article>
+
+      <!-- Foto + redes à direita -->
+      <aside class="author-aside">
+        <!-- troque pelo seu arquivo real: imagens/autor.jpg ou .png/.webp -->
+        <img src="imagens/autor1.jpg" alt="Foto do autor" class="author-photo" />
+
+        <div class="author-socials">
+          <a class="social-link" href="https://instagram.com/SEU_USUARIO" target="_blank" rel="noopener">
+            Instagram
+          </a>
+          <a class="social-link" href="mailto:seuemail@exemplo.com">
+            Email
+          </a>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Gabriel Cunha — Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu acionado pela marca “Meu Livro”
+    (function(){
+      const trigger  = document.getElementById('menuTriggerBrand');
+      const panel    = document.getElementById('menuPanel');
+      const list     = panel ? panel.querySelector('.menu-list') : null;
+      const backdrop = document.getElementById('menuBackdrop');
+      const headerNav= document.getElementById('primary-nav');
+      if (!trigger || !panel || !list || !headerNav) return;
+
+      const links = Array.from(headerNav.querySelectorAll('a.nav-link, a.nav-link.cta'));
+      list.innerHTML = links.map(a => `<a class="${a.className}" href="${a.getAttribute('href')}">${a.textContent.trim()}</a>`).join('');
+
+      function openMenu(){ panel.hidden=false; backdrop.hidden=false; trigger.setAttribute('aria-expanded','true'); document.addEventListener('keydown', onKey); }
+      function closeMenu(){ panel.hidden=true;  backdrop.hidden=true;  trigger.setAttribute('aria-expanded','false'); document.removeEventListener('keydown', onKey); }
+      function onKey(e){ if (e.key==='Escape') closeMenu(); }
+
+      trigger.addEventListener('click', e => { e.preventDefault(); panel.hidden ? openMenu() : closeMenu(); });
+      trigger.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openMenu(); }});
+      backdrop && backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('click', e => { if (panel.hidden) return; const inside = panel.contains(e.target) || trigger.contains(e.target); if (!inside) closeMenu(); });
+    })();
+
+    // Ano do rodapé
+    (function(){ const yr=document.getElementById('year'); if(yr) yr.textContent=new Date().getFullYear(); })();
+  </script>
+</body>
 </html>
